@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: GitHub Action for Yarn
         uses: Borales/actions-yarn@v2.3.0
-      - run: sudo rm -rf "/home/runner/work/scrapFront/scrapFront/node_modules"
+      - run: sudo rm -rf "/home/runner/work/KrowdyFrontProyect2/KrowdyFrontProyect2/node_modules"
       - name: Checkout repository
         uses: actions/checkout@v2
       
@@ -41,7 +41,7 @@ jobs:
         uses: azure/webapps-deploy@v2
       
         with:
-          app-name: 'scrapFrontendproject'
+          app-name: 'FrontVideoKrowdyProject'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_33565088C869422A8B9FAFCF19131640 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A74DB37E63A341F5AD40DE379B2C20DF }}
           package: .
