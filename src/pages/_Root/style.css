@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+}
+
+.App .miniaturas{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
