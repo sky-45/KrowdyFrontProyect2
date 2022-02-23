@@ -21,9 +21,10 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
             document.getElementById("playVideo").textContent = VideoHandlers.renderButtonStatus(statusPlay)
             document.getElementById("showVideo").textContent = VideoHandlers.renderButtonStatus(statusRecord)
             recordedBlobs = dataQuestions[currentPage-1].blobBuffer
+            
         }
         else{
-            
+
             //dont show play button
             document.getElementById("playVideo").style.visibility = "hidden"
             document.getElementById("showVideo").textContent = VideoHandlers.renderButtonStatus(statusRecord)
