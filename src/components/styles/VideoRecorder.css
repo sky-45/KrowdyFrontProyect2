@@ -1,0 +1,16 @@
+#timeStampRecording{
+    position: absolute;
+    color:red;
+    display: flex;
+    flex-direction: row;
+    
+}
+#timeStampRecording #btn{
+    color: red;
+    margin: 0;
+    padding: 5px;
+}
+#timeStampRecording #rcrdIcon{
+    margin: 0;
+    padding: 5px;
+}

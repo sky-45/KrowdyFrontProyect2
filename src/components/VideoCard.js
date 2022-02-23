@@ -1,40 +1,37 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
-import { useNavigate } from "react-router-dom";
+import './styles/VideoCard.css'
+import '../solid_black.png'
 
 
-const VideoCard = ({data,setData,question,id}) => {
+const VideoCard = ({elem}) => {
 
   const navigate = useNavigate(); 
+  
   const  _handleGotoVideoPage = () =>{
-    
-    const dataSend = {
-      /* data:data,
-      setData:setData,
-       */
-      data:data,
-      question:question,
-      id: id
-    }
-    
-    navigate(`/video/${id}`, { state: dataSend });
+    navigate(`/video/${elem.id}`);
+  }
+  const getBuffer=()=>{
+    const superBuffer = new Blob(elem.blobBuffer, {type: 'video/webm'});
+    return window.URL.createObjectURL(superBuffer)
+    //return superBuffer
   }
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card className='VideoCard'>
       <CardActionArea onClick={_handleGotoVideoPage}>
-        {/* <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
-        /> */}
+        {!elem.answered?<CardMedia className='cardSrc' component="img" height="300" width="220" image={require("../solid_black.png")}/>
+        :<CardMedia className='cardSrc' component="video" height="280" width="220" image={getBuffer()} autoPlay loop={true} muted={true}/>}
+        
+        
         <CardContent>
          <Typography variant="body2" color="text.secondary">
-            {question}
+            PREGUNTA: {elem.question}
           </Typography>
         </CardContent>
       </CardActionArea>

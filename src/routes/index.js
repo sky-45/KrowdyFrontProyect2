@@ -8,30 +8,39 @@ const Root = () => {
     {
       question: "Cual es tu nombre 1",
       answered: false,
+      id:1,
+      blobBuffer:""
     },
     {
       question: "Cual es tu nombre 2",
       answered: false,
+      id:2,
+      blobBuffer:""
     },
     {
       question: "Cual es tu nombre 3",
       answered: false,
+      id:3,
+      blobBuffer:""
     },
     {
       question: "Cual es tu nombre 4",
       answered: false,
+      id:4,
+      blobBuffer:""
     }
   ])
+  console.log("rendering from router",dataQuestions)
+
   
   return (
     <Routes>
       <Route path="/" element={<Main 
-                                dataQuestions = {dataQuestions} 
-                                setDataQuestions={setDataQuestions}
+                                dataQuestions = {dataQuestions}
                               />} />
       <Route path="/video/:id" element={<Video 
                                           dataQuestions = {dataQuestions} 
-                                          setDataQuestions={setDataQuestions}  
+                                          setDataQuestions={setDataQuestions}
                                         />} />
     </Routes>
   );
