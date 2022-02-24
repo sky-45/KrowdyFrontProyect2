@@ -30,9 +30,7 @@ const Root = () => {
       blobBuffer:""
     }
   ])
-  console.log("rendering from router",dataQuestions)
 
-  
   return (
     <Routes>
       <Route path="/" element={<Main 

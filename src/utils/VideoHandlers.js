@@ -1,13 +1,12 @@
 export const constraints = {
     audio: {
-        
     },
     video: {
         width: 1280, height: 720
     }
-  };
+};
 
-  export const renderButtonStatus = (stat) =>{
+export const renderButtonStatus = (stat) =>{
     switch(stat){
         case "start":
             return "start recording";
@@ -21,9 +20,7 @@ export const constraints = {
             return "stop playing";
         case "playFromStop":
             return "play record";
-                    
         default:
             return "start recording"
-
     }
 }

@@ -1,7 +1,6 @@
 .VideoCard{
- max-width: 220px;
-
- margin: 10px;
+    max-width: 220px;
+    margin: 10px;
 }
 .cardSrc{
     max-height: 100%;

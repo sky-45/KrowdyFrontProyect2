@@ -12,14 +12,12 @@ import '../solid_black.png'
 const VideoCard = ({elem}) => {
 
   const navigate = useNavigate(); 
-  
   const  _handleGotoVideoPage = () =>{
     navigate(`/video/${elem.id}`);
   }
   const getBuffer=()=>{
     const superBuffer = new Blob(elem.blobBuffer, {type: 'video/webm'});
     return window.URL.createObjectURL(superBuffer)
-    //return superBuffer
   }
 
   return (
@@ -27,7 +25,6 @@ const VideoCard = ({elem}) => {
       <CardActionArea onClick={_handleGotoVideoPage}>
         {!elem.answered?<CardMedia className='cardSrc' component="img" height="300" width="220" image={require("../solid_black.png")}/>
         :<CardMedia className='cardSrc' component="video" height="280" width="220" image={getBuffer()} autoPlay loop={true} muted={true}/>}
-        
         
         <CardContent>
          <Typography variant="body2" color="text.secondary">

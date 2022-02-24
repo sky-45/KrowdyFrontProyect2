@@ -1,17 +1,18 @@
 import React,{useEffect} from 'react'
 import Button from '@mui/material/Button';
 import CircleIcon from '@mui/icons-material/Circle';
-
 import * as VideoHandlers from '../utils/VideoHandlers'
 import './styles/VideoRecorder.css'
 
 
 const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
-    console.log("rendering videorecorder")
     let statusRecord = "start"
     let statusPlay = "play"
-
     let stateRecorded = dataQuestions[currentPage-1].answered
+    let mediaRecorder;
+    let recordedBlobs;
+    let timer,currentTime=0;
+
     useEffect(()=>{
         init(VideoHandlers.constraints);
         if(stateRecorded){
@@ -21,10 +22,8 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
             document.getElementById("playVideo").textContent = VideoHandlers.renderButtonStatus(statusPlay)
             document.getElementById("showVideo").textContent = VideoHandlers.renderButtonStatus(statusRecord)
             recordedBlobs = dataQuestions[currentPage-1].blobBuffer
-            
         }
         else{
-
             //dont show play button
             document.getElementById("playVideo").style.visibility = "hidden"
             document.getElementById("showVideo").textContent = VideoHandlers.renderButtonStatus(statusRecord)
@@ -33,16 +32,13 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
 
     function setStatusRecord(val){
         statusRecord = val+""
-        //change button record value
         document.getElementById("showVideo").textContent = VideoHandlers.renderButtonStatus(statusRecord)
     }
+
     function setStatusPlay(val){
         statusPlay = val+""
-        //change button play value
         document.getElementById("playVideo").textContent = VideoHandlers.renderButtonStatus(statusPlay)
     }
-    let mediaRecorder;
-    let recordedBlobs;
 
     async function init() {
         const stream = await navigator.mediaDevices.getUserMedia(VideoHandlers.constraints);
@@ -51,13 +47,12 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
         liveVideo.srcObject = stream;
     }
 
-
     function handleDataAvailable(event) {
         if (event.data && event.data.size > 0) {
             recordedBlobs.push(event.data);
         }
       }
-    let timer,currentTime=0;
+
     function startRecording() {
         recordedBlobs = [];
         document.querySelector("#timeStampRecording").style.visibility = "visible"
@@ -67,36 +62,31 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
         const options = {mimeType};
         mediaRecorder = new MediaRecorder(window.stream, options);
         mediaRecorder.onstop = (event) => {
-            //setQuestionAsAnswered(currentPage)
             console.log("question set as answered")
-          };
-        
+        };
         mediaRecorder.ondataavailable = handleDataAvailable;
         mediaRecorder.start();
         timerRecorded();
     }
+
     function stopRecording() {
-        
         document.querySelector("#timeStampRecording").style.visibility = "hidden"
         document.querySelector("#rcrdIcon").style.visibility = "hidden"
-        
         if(timer){
             clearTimeout(timer);
             currentTime=0;
         }
         mediaRecorder.stop();
-        console.log("stop recordinggg, mediarecorder:", mediaRecorder);
         mediaRecorder.stream.getTracks().forEach( (track) => {
             track.stop();
         } );
         window.stream.getTracks().forEach( (track) => {
             track.stop();
         } );
-        
         blobStorageRef.current = recordedBlobs
         mediaRecorder = ""
-        console.log("updated blolb ref: ",blobStorageRef.current)
     }
+
     const _handleRecordButton = async () =>{
         if(statusPlay === "init"){
             setStatusRecord("start")
@@ -113,16 +103,14 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
             //shows play button
             document.getElementById("playVideo").style.visibility = "visible";
             setCameraPreview();
-            
         }
         else if(statusRecord === "recorded"){
             await init(VideoHandlers.constraints);
             setStatusRecord("start")
             setStatusPlay("play")
             document.getElementById("playVideo").style.visibility = "hidden"
-            
         }
-      }
+    }
 
     const  setCameraPreview = ()=>{
         const mimeType = 'video/webm';
@@ -132,18 +120,19 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
         recordedVideo.srcObject = null;
         recordedVideo.src = window.URL.createObjectURL(superBuffer);
         recordedVideo.controls = false;
-        
     }
+    
     function startPlaying(){
-        console.log("starting playing")
         setCameraPreview()
         const recordedVideo = document.querySelector('video');
         recordedVideo.play();
     }
+
     function stopPlaying(){
         const recordedVideo = document.querySelector('video');
         recordedVideo.pause();
     }
+
     const _handlePlayVideo = ()=>{
         if(statusPlay === "init"){
             setStatusPlay("start")
@@ -179,16 +168,13 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
             currentTime = 0;
             document.querySelector('#showVideo').click()
         }
-        
-        
     }
 
-  return (
+    return (
     <div>
         <div id="timeStampRecording" sx={{visibility:"hidden"}}>
             <CircleIcon id="rcrdIcon"sx={{visibility:"hidden"}}/>
             <Button id="btn"variant="text" ></Button>
-        
         </div>
         <video id="gum-local" autoPlay playsInline></video>
         <div>
@@ -199,7 +185,6 @@ const VideoRecorder = ({currentPage,blobStorageRef,dataQuestions}) => {
             {VideoHandlers.renderButtonStatus(statusPlay)}
         </Button>
         </div>
-
     </div>
   )
 }

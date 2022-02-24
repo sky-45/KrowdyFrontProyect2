@@ -1,10 +1,12 @@
 import './style.css';
 import VideoCard from '../../components/VideoCard';
 
+
 function Main({dataQuestions}) {
+  
   return (
     <div className="App">
-      <h1>Video Cuestonario</h1>
+      <h1>Video Cuestionario</h1>
       <div className='miniaturas'>
       {
         dataQuestions.map((elem) => {

@@ -1,7 +1,6 @@
 // react imports
 import React, { memo,useRef } from 'react'
 import { useNavigate,useParams  } from "react-router-dom";
-
 import './style.css';
 // MUI imports
 import Button from '@mui/material/Button';
@@ -10,7 +9,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-
 // component imports
 import VideoRecorder from '../../components/VideoRecorder';
 
@@ -26,12 +24,29 @@ const Controls = memo(({currentPage,blobStorageRef,dataQuestions,setDataQuestion
     }
   }
   const checkIfNextPage = ()=>{
-    if(currentPage===4){
-
-      return "Terminar"
+    const temp = dataQuestions.filter((elem)=>{
+      return !elem.answered;
+    })
+    if(temp.length===1){
+      if (currentPage===4){
+        return "Terminar";
+      }
+      else{
+        return "Siguiente";
+      }
+      
+    }
+    else if(temp.length===0){
+      return "Terminar";
     }
     else{
-      return "Siguiente"
+      if (currentPage===4){
+        return "Terminar";
+      }
+      else{
+        return "Siguiente";
+      }
+      
     }
   }
 
@@ -40,9 +55,7 @@ const Controls = memo(({currentPage,blobStorageRef,dataQuestions,setDataQuestion
         //update state if theres a blolb recording data
         const newData = getNewData()
         setDataQuestions(newData)
-
       }
-
     navigate(`/video/${currentPage-1}`);
   }
 
@@ -60,7 +73,6 @@ const Controls = memo(({currentPage,blobStorageRef,dataQuestions,setDataQuestion
           //raise alert
           console.log("cant finish, theres questions witout answers:",dataQuestions)
         }
-
       }
       else{
         const newData = getNewData()
@@ -84,11 +96,9 @@ const Controls = memo(({currentPage,blobStorageRef,dataQuestions,setDataQuestion
         const newData = getNewData()
         console.log("saving this: ",newData)
         setDataQuestions(newData)
-
       }
       navigate(`/video/${currentPage+1}`);
     }
-
   }
   
   return (
@@ -128,9 +138,10 @@ const Video = ({dataQuestions,setDataQuestions}) => {
       //update state if theres a blolb recording data
       const newData = getNewData()
       setDataQuestions(newData)
-
     }
-
+    window.stream.getTracks().forEach( (track) => {
+      track.stop();
+    } );
     navigate('/');
   }
 
@@ -138,7 +149,6 @@ const Video = ({dataQuestions,setDataQuestions}) => {
     <div className='Container'>
         <div>
           <Button size="medium" onClick={_handleBackButton} startIcon={<ArrowBackIosIcon />}>Back</Button>
-          
         </div>
         <div className='VideoBox'>
           <Card  className="card">
